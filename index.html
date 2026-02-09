@@ -129,8 +129,7 @@
         .recette-img {
             width: 100%;
             height: 200px;
-            background-size: cover;
-            background-position: center;
+            object-fit: cover;
         }
 
         .recette-content {
@@ -147,6 +146,7 @@
             text-transform: uppercase;
             font-weight: 700;
             margin-bottom: 10px;
+            margin-right: 5px;
         }
 
         .recette-card h2 {
@@ -167,7 +167,7 @@
 <nav>
     <a href="#" class="logo">Recettes de Romane</a>
     <div class="search-container">
-        <input type="text" id="search" placeholder="Rechercher...">
+        <input type="text" id="search" placeholder="Rechercher (ex: crepes)...">
     </div>
 </nav>
 
@@ -227,9 +227,8 @@
     </a>
 
     <a href="/pages/crepes/crepes.html" class="recette-card" data-type="sucré">
-        <img src="/pages/crepes/crepes.jpg" alt="Twix" class="recette-img">
+        <img src="/pages/crepes/crepes.jpg" alt="Crêpes" class="recette-img">
         <div class="recette-content">
-            <span class="badge">Salé</span>
             <span class="badge">Sucré</span>
             <h2>Crêpes</h2>
             <p>Parfait pour une soirée entre amis !</p>
@@ -242,15 +241,27 @@
     const filterBtns = document.querySelectorAll(".filter-btn");
     const recipes = document.querySelectorAll(".recette-card");
 
+    // Fonction utilitaire pour enlever les accents et mettre en minuscule
+    function simplifyText(text) {
+        return text
+            .toLowerCase()
+            .normalize("NFD")               // Décompose les caractères accentués
+            .replace(/[\u0300-\u036f]/g, ""); // Supprime les accents
+    }
+
     function filterRecipes() {
-        const searchTerm = searchInput.value.toLowerCase();
+        const searchTerm = simplifyText(searchInput.value);
         const activeCategory = document.querySelector(".filter-btn.active").dataset.category;
 
         recipes.forEach(recipe => {
-            const text = recipe.innerText.toLowerCase();
+            // On récupère le titre et la description pour la recherche
+            const title = recipe.querySelector('h2').innerText;
+            const description = recipe.querySelector('p').innerText;
+            const combinedText = simplifyText(title + " " + description);
+            
             const category = recipe.dataset.type;
             
-            const matchesSearch = text.includes(searchTerm);
+            const matchesSearch = combinedText.includes(searchTerm);
             const matchesCategory = activeCategory === "tous" || category === activeCategory;
 
             if (matchesSearch && matchesCategory) {
@@ -261,10 +272,10 @@
         });
     }
 
-    // Event Search
-    searchInput.addEventListener("keyup", filterRecipes);
+    // Écouteur sur la barre de recherche
+    searchInput.addEventListener("input", filterRecipes);
 
-    // Event Buttons
+    // Écouteur sur les boutons de filtre
     filterBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             filterBtns.forEach(b => b.classList.remove("active"));
