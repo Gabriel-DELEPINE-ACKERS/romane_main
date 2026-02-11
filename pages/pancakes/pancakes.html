@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/data/favicon.png">
+    <title>Pancakes nature</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #ff7043;
+            --bg: #fdfbf9;
+            --text: #333;
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            padding: 20px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- HEADER DE LA RECETTE --- */
+        .recipe-header {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap; /* Pour le mobile */
+        }
+
+        .recipe-title-section {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .recipe-title-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin: 0 0 10px 0;
+            color: var(--text);
+        }
+
+        .recipe-meta {
+            display: flex;
+            gap: 20px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .recipe-image {
+            width: 400px;
+            height: 300px;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: var(--shadow);
+            background: linear-gradient(45deg, #FF9A8B, #FF6A88); /* Placeholder */
+        }
+
+        /* --- CORPS DE LA RECETTE --- */
+        .recipe-container {
+            max-width: 1000px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 2fr; /* Ingrédients plus étroits que la préparation */
+            gap: 50px;
+        }
+
+        /* Ingrédients */
+        .ingredients {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .ingredients h3 {
+            font-family: 'Playfair Display', serif;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .ingredients ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ingredients li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Préparation */
+        .instructions h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+        }
+
+        .step {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 800px) {
+            .recipe-container {
+                grid-template-columns: 1fr;
+            }
+            .recipe-header {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+            .recipe-image {
+                width: 100%;
+                height: 250px;
+            }
+            .recipe-title-section h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/index.html" class="back-btn">← Retour aux recettes</a>
+</nav>
+
+<header class="recipe-header">
+    <div class="recipe-title-section">
+        <span style="color: var(--primary); font-weight: 600; text-transform: uppercase; font-size: 0.8rem;">Douceur / Sucré</span>
+        <h1>Pancakes nature</h1>
+        <div class="recipe-meta">
+            <span>Prep: 5 min</span>
+            <span>Cuisson: 10 min</span>
+            <span>Difficulté: Facile</span>
+            <span>Nombre: 4 personnes</span>
+            <span>lien : <a href="https://www.hervecuisine.com/recette/pancakes-authentiques-au-sirop-derable/">Pancakes</a></span>
+        </div>
+    </div>
+    <img src="/pages/pancakes/pancakes.jpeg" alt="Photo de mes pancakes" class="recipe-image">
+</header>
+
+<main class="recipe-container">
+    
+    <aside class="ingredients">
+        <h3>Ingrédients</h3>
+        <ul>
+            <li><span>Œufs</span> <span>2</span></li>
+            <li><span>Sucre</span> <span>2 càs</span></li>
+            <li><span>Sucre vanillé </span> <span>1 sachet</span></li>
+            <li><span>Lait</span> <span>15 cl</span></li>
+            <li><span>Farine</span> <span>125g</span></li>
+            <li><span>Bicarbonate de soude ou levure chimique</span> <span>1 càs</span></li>
+            <li><span>Sel</span> <span>1 pincée</span></li>
+            <li><span>Beurre ou huile pour la cuisson</span> <span></span></li>
+        </ul>
+    </aside>
+
+    <section class="instructions">
+        <h3>Préparation</h3>
+        
+        <div class="step">
+            <div class="step-number">1</div>
+            <p>Dans un grand bol, mélangez les ingrédients secs : farine, levure, le sucre, 1 pincée de sel et un sachet de sucre vanillé</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <p>Dans un autre bol, mélangez les 2 jaunes d'oeuf avec le lait puis ajoutez aux ingrédients secs en mélangeant, vous obtenez une texture de pâte à crêpes bien épaisse, laissez reposer 15 à 30 minutes</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <p>Battez les blancs en neige et ajoutez-les délicatement à la préparation (c'est le secret de pancakes ultra moelleux)</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <p>Faites cuire dans une petite poêle beurrée bien chaude 1 minute de chaque côté</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">5</div>
+            <p>Le bord doit être doré, et des petites bulles doivent se former sur le dessus, c'est le moment de retourner le pancake !</p>
+        </div>
+    </section>
+
+</main>
+
+</body>
+</html>
