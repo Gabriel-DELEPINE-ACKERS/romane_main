@@ -178,8 +178,15 @@
             <span>Prep: 13-15 min</span>
             <span>Cuisson: 10 min</span>
             <span>Difficulté: Facile</span>
-            <span>Nombre: 12</span>
+             <div class="servings-control">
+                <span>Unités</span>
 
+                <div class="servings-box">
+                    <button id="minus">−</button>
+                    <span id="servings">12</span>
+                    <button id="plus">+</button>
+                </div>
+            </div>
         </div>
     </div>
     <img src="/pages/cookies/cookies.png" alt="Photo de mes cookies" class="recipe-image">
@@ -232,6 +239,52 @@
     </section>
 
 </main>
+<script>
+
+const baseServings = 2;
+
+let servings = 2;
+
+const servingsDisplay = document.getElementById("servings");
+const plus = document.getElementById("plus");
+const minus = document.getElementById("minus");
+
+const quantities = document.querySelectorAll(".qty");
+
+function updateQuantities(){
+
+    const ratio = servings / baseServings;
+
+    quantities.forEach(qty => {
+
+        const baseQty = qty.dataset.qty;
+        const newQty = (baseQty * ratio).toFixed(2);
+
+        qty.textContent = newQty;
+
+    });
+
+    servingsDisplay.textContent = servings;
+}
+
+plus.addEventListener("click", () => {
+
+    servings++;
+    updateQuantities();
+
+});
+
+minus.addEventListener("click", () => {
+
+    if(servings > 1){
+        servings--;
+        updateQuantities();
+    }
+
+});
+
+</script>
+
 
 </body>
 </html>

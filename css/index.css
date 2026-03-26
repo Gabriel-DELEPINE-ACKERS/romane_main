@@ -8,3 +8,43 @@
 body{
     background-color: red;
 }
+
+/* --- SERVINGS CONTROL --- */
+
+.servings-control{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.servings-box{
+    display:flex;
+    align-items:center;
+    background:white;
+    border-radius:30px;
+    box-shadow: var(--shadow);
+    overflow:hidden;
+}
+
+.servings-box button{
+    border:none;
+    background:none;
+    font-size:1.2rem;
+    padding:5px 12px;
+    cursor:pointer;
+    color:var(--primary);
+    font-weight:600;
+    transition:0.2s;
+}
+
+.servings-box button:hover{
+    background:var(--primary);
+    color:white;
+}
+
+#servings{
+    padding:5px 12px;
+    font-weight:600;
+    min-width:20px;
+    text-align:center;
+}
