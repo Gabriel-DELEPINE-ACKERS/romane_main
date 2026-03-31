@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/data/favicon.png">
-    <title>Pancakes banane</title>
+    <title>Guacamole maison - Recette facile</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -24,13 +24,10 @@
             line-height: 1.7;
         }
 
-        /* --- NAVIGATION --- */
         nav {
             padding: 20px;
             background: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
         }
 
         .back-btn {
@@ -42,7 +39,6 @@
             gap: 8px;
         }
 
-        /* --- HEADER DE LA RECETTE --- */
         .recipe-header {
             max-width: 1000px;
             margin: 40px auto;
@@ -50,7 +46,7 @@
             display: flex;
             align-items: center;
             gap: 40px;
-            flex-wrap: wrap; /* Pour le mobile */
+            flex-wrap: wrap;
         }
 
         .recipe-title-section {
@@ -70,6 +66,8 @@
             gap: 20px;
             color: #888;
             font-size: 0.9rem;
+            flex-wrap: wrap;
+            align-items: center;
         }
 
         .recipe-image {
@@ -78,20 +76,17 @@
             border-radius: 20px;
             object-fit: cover;
             box-shadow: var(--shadow);
-            background: linear-gradient(45deg, #FF9A8B, #FF6A88); /* Placeholder */
         }
 
-        /* --- CORPS DE LA RECETTE --- */
         .recipe-container {
             max-width: 1000px;
             margin: 0 auto 60px;
             padding: 0 20px;
             display: grid;
-            grid-template-columns: 1fr 2fr; /* Ingrédients plus étroits que la préparation */
+            grid-template-columns: 1fr 2fr;
             gap: 50px;
         }
 
-        /* Ingrédients */
         .ingredients {
             background: white;
             padding: 30px;
@@ -110,16 +105,25 @@
         .ingredients ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         .ingredients li {
-            padding: 10px 0;
+            padding: 12px 0;
             border-bottom: 1px dashed #eee;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
-        /* Préparation */
+        .qty {
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(255, 112, 67, 0.1);
+            padding: 4px 10px;
+            border-radius: 10px;
+        }
+
         .instructions h3 {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
@@ -134,8 +138,8 @@
         .step-number {
             background: var(--primary);
             color: white;
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -145,22 +149,39 @@
             margin-top: 5px;
         }
 
-        /* --- RESPONSIVE --- */
+        .servings-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .servings-box {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .servings-box button {
+            border: none;
+            background: none;
+            padding: 5px 12px;
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        #servings {
+            padding: 0 5px;
+            font-weight: 600;
+        }
+
         @media (max-width: 800px) {
-            .recipe-container {
-                grid-template-columns: 1fr;
-            }
-            .recipe-header {
-                flex-direction: column-reverse;
-                text-align: center;
-            }
-            .recipe-image {
-                width: 100%;
-                height: 250px;
-            }
-            .recipe-title-section h1 {
-                font-size: 2.2rem;
-            }
+            .recipe-container { grid-template-columns: 1fr; }
+            .recipe-header { flex-direction: column-reverse; text-align: center; }
+            .recipe-image { width: 100%; height: 250px; }
+            .recipe-title-section h1 { font-size: 2.2rem; }
         }
     </style>
 </head>
@@ -172,25 +193,25 @@
 
 <header class="recipe-header">
     <div class="recipe-title-section">
-        <span style="color: var(--primary); font-weight: 600; text-transform: uppercase; font-size: 0.8rem;">Douceur / Sucré</span>
-        <h1>Pancakes nature</h1>
+        <p style="color: var(--primary); font-weight: 600; text-transform: uppercase; margin: 0; font-size: 0.8rem;">Apéritif / Salé</p>
+        <h1>Guacamole</h1>
         <div class="recipe-meta">
-            <span>Prep: 5 min</span>
-            <span>Cuisson: 10 min</span>
-            <span>Difficulté: Facile</span>
-             <div class="servings-control">
-                <span>Personnes</span>
-
+            <span>Préparation : 5 min</span>
+            <span>Difficulté : Facile</span>
+            
+            <div class="servings-control">
+                <span>Bol(s)</span>
                 <div class="servings-box">
-                    <button id="minus">−</button>
-                    <span id="servings">4</span>
-                    <button id="plus">+</button>
+                    <button type="button" id="minus" aria-label="Moins">−</button>
+                    <span id="servings">1</span>
+                    <button type="button" id="plus" aria-label="Plus">+</button>
                 </div>
             </div>
-            <span>lien : <a href="https://www.cuisineactuelle.fr/recettes/pancakes-a-la-banane-251406">Pancakes</a></span>
+
+            <span><a href="https://fournaiseaufour.canalblog.com/2025/08/guacamole-de-roro.html" style="color: inherit; text-decoration: none;">🔗 Source</a></span>
         </div>
     </div>
-    <img src="/pages/pancakes/pancakes_banane.jpg" alt="Photo de mes pancakes" class="recipe-image">
+    <img src="/pages/guacamole/guacamole.jpg" alt="Guacamole maison avec tomates et échalotes" class="recipe-image">
 </header>
 
 <main class="recipe-container">
@@ -198,91 +219,71 @@
     <aside class="ingredients">
         <h3>Ingrédients</h3>
         <ul>
-            <li><span>Œufs</span> <span>2</span></li>
-            <li><span>Sucre</span> <span>70g</span></li>
-            <li><span>Sucre vanillé </span> <span>1 sachet</span></li>
-            <li><span>Lait</span> <span>10 cl</span></li>
-            <li><span>Farine</span> <span>200g</span></li>
-            <li><span>Levure chimique</span> <span>1 càs</span></li>
-            <li><span>Sel</span> <span>1 pincée</span></li>
-            <li><span>Banane</span> <span>2</span></li>
-        </ul>
+            <li><span>Avocat mûr</span> <span class="qty" data-qty="1">1</span></li>
+            <li><span>Tomate</span> <span class="qty" data-qty="1">1</span></li>
+            <li><span>Échalote</span> <span class="qty" data-qty="1">1</span></li>
+            <li><span>Tabasco</span> <span>au goût</span></li>
+            <li><span>Sel et poivre</span> <span>pincée</span></li>       
+         </ul>
     </aside>
 
-    <section class="instructions">
+    <article class="instructions">
         <h3>Préparation</h3>
         
         <div class="step">
             <div class="step-number">1</div>
-            <p>Dans un saladier, écraser les bananes à la fourchette. Ajouter les oeufs (2), le sucre (70g), le sel et la levure.</p>
+            <p>Dans un saladier, écrasez la chair de l'avocat à l'aide d'une fourchette jusqu'à obtenir la consistance désirée (plus ou moins lisse).</p>
         </div>
 
         <div class="step">
             <div class="step-number">2</div>
-            <p>Mélanger puis ajouter la farine (200g).</p>
+            <p>Découpez très finement la tomate et l'échalote en petits dés.</p>
         </div>
 
         <div class="step">
             <div class="step-number">3</div>
-            <p>Verser le lait (10cl) et mélanger de nouveau.</p>
+            <p>Ajoutez les légumes à l'avocat. Assaisonnez avec quelques gouttes de Tabasco, du sel et du poivre selon vos préférences.</p>
         </div>
 
         <div class="step">
             <div class="step-number">4</div>
-            <p>Laisser reposer 10 minutes</p>
+            <p>Servez frais accompagné de chips tortillas (triangles) ou de morceaux de pain libanais grillés.</p>
         </div>
-
-        <div class="step">
-            <div class="step-number">5</div>
-            <p>Dans une poele légérement huilée, verser des petits ronds de pâte. Laisser colorer pendant 1 minute.</p>
-        </div>
-    </section>
+    </article>
 
 </main>
+
 <script>
+(function() {
+    const baseServings = 1;
+    let servings = 1;
+    const quantities = document.querySelectorAll(".qty");
 
-const baseServings = 2;
-
-let servings = 2;
-
-const servingsDisplay = document.getElementById("servings");
-const plus = document.getElementById("plus");
-const minus = document.getElementById("minus");
-
-const quantities = document.querySelectorAll(".qty");
-
-function updateQuantities(){
-
-    const ratio = servings / baseServings;
-
-    quantities.forEach(qty => {
-
-        const baseQty = qty.dataset.qty;
-        const newQty = (baseQty * ratio).toFixed(2);
-
-        qty.textContent = newQty;
-
-    });
-
-    servingsDisplay.textContent = servings;
-}
-
-plus.addEventListener("click", () => {
-
-    servings++;
-    updateQuantities();
-
-});
-
-minus.addEventListener("click", () => {
-
-    if(servings > 1){
-        servings--;
-        updateQuantities();
+    function updateQuantities(){
+        const ratio = servings / baseServings;
+        quantities.forEach(qty => {
+            const baseValue = parseFloat(qty.dataset.qty);
+            if (!isNaN(baseValue)) {
+                const finalQty = parseFloat((baseValue * ratio).toFixed(2));
+                qty.textContent = finalQty;
+            }
+        });
+        document.getElementById("servings").textContent = servings;
     }
 
-});
+    document.getElementById("plus").onclick = () => {
+        servings++;
+        updateQuantities();
+    };
 
+    document.getElementById("minus").onclick = () => {
+        if(servings > 1){
+            servings--;
+            updateQuantities();
+        }
+    };
+})();
 </script>
+
 </body>
 </html>

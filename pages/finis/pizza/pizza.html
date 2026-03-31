@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/data/favicon.png">
-    <title>Pizza</title>
+    <title>Pizza Maison - Recette Rapide</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -24,7 +24,6 @@
             line-height: 1.7;
         }
 
-        /* --- NAVIGATION --- */
         nav {
             padding: 20px;
             background: white;
@@ -42,7 +41,6 @@
             gap: 8px;
         }
 
-        /* --- HEADER DE LA RECETTE --- */
         .recipe-header {
             max-width: 1000px;
             margin: 40px auto;
@@ -50,7 +48,7 @@
             display: flex;
             align-items: center;
             gap: 40px;
-            flex-wrap: wrap; /* Pour le mobile */
+            flex-wrap: wrap;
         }
 
         .recipe-title-section {
@@ -70,6 +68,7 @@
             gap: 20px;
             color: #888;
             font-size: 0.9rem;
+            align-items: center;
         }
 
         .recipe-image {
@@ -78,20 +77,18 @@
             border-radius: 20px;
             object-fit: cover;
             box-shadow: var(--shadow);
-            background: linear-gradient(45deg, #FF9A8B, #FF6A88); /* Placeholder */
+            background: linear-gradient(45deg, #FF9A8B, #FF6A88);
         }
 
-        /* --- CORPS DE LA RECETTE --- */
         .recipe-container {
             max-width: 1000px;
             margin: 0 auto 60px;
             padding: 0 20px;
             display: grid;
-            grid-template-columns: 1fr 2fr; /* Ingrédients plus étroits que la préparation */
+            grid-template-columns: 1fr 2fr;
             gap: 50px;
         }
 
-        /* Ingrédients */
         .ingredients {
             background: white;
             padding: 30px;
@@ -105,7 +102,10 @@
             border-bottom: 2px solid var(--primary);
             display: inline-block;
             margin-bottom: 20px;
+            margin-top: 30px;
         }
+
+        .ingredients h3:first-child { margin-top: 0; }
 
         .ingredients ul {
             list-style: none;
@@ -119,7 +119,11 @@
             justify-content: space-between;
         }
 
-        /* Préparation */
+        .qty {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
         .instructions h3 {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
@@ -145,22 +149,37 @@
             margin-top: 5px;
         }
 
-        /* --- RESPONSIVE --- */
+        .servings-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .servings-box {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 2px 10px;
+        }
+
+        .servings-box button {
+            border: none;
+            background: none;
+            padding: 5px;
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
         @media (max-width: 800px) {
-            .recipe-container {
-                grid-template-columns: 1fr;
-            }
-            .recipe-header {
-                flex-direction: column-reverse;
-                text-align: center;
-            }
-            .recipe-image {
-                width: 100%;
-                height: 250px;
-            }
-            .recipe-title-section h1 {
-                font-size: 2.2rem;
-            }
+            .recipe-container { grid-template-columns: 1fr; }
+            .recipe-header { flex-direction: column-reverse; text-align: center; }
+            .recipe-image { width: 100%; height: 250px; }
+            .recipe-title-section h1 { font-size: 2.2rem; }
+            .recipe-meta { justify-content: center; }
         }
     </style>
 </head>
@@ -172,51 +191,50 @@
 
 <header class="recipe-header">
     <div class="recipe-title-section">
-        <span style="color: var(--primary); font-weight: 600; text-transform: uppercase; font-size: 0.8rem;">Douceur / Sucré</span>
-        <h1>Pizza</h1>
+        <span style="color: var(--primary); font-weight: 600; text-transform: uppercase; font-size: 0.8rem;">Salé / Plat</span>
+        <h1>Pizza Maison</h1>
         <div class="recipe-meta">
-            <span>Prep: 5 min</span>
+            <span>Prep: 15 min</span>
+            <span>Repos: 1h</span>
             <span>Cuisson: 10 min</span>
-            <span>Difficulté: Facile</span>
             <div class="servings-control">
-                <span>Personnes</span>
-
                 <div class="servings-box">
                     <button id="minus">−</button>
                     <span id="servings">2</span>
                     <button id="plus">+</button>
                 </div>
+                <span>pers.</span>
             </div>
         </div>
     </div>
-    <img src="/pages/pizza/pizza.jpg" alt="Photo de mon guacamole" class="recipe-image">
+    <img src="/pages/pizza/pizza.jpg" alt="Photo d'une pizza croustillante" class="recipe-image">
 </header>
 
 <main class="recipe-container">
     
     <aside class="ingredients">
-        <h3>Ingrédients</h3>
+        <h3>La Pâte</h3>
         <ul>
-            <li><span>Farine</span> <span class="qty" data-qty="175">175</span>g</li>
-            <li><span>Sel</span> <span class="qty" data-qty="1">1</span> càc</li>
-            <li><span>Levure (boulangère)</span> <span class="qty" data-qty="0.5">1/2</span> sachet</li>
-            <li><span>Huile d'olive</span> <span class="qty" data-qty="1.5">1.5</span> càs</li>
-            <li><span>Eau tiède</span> <span class="qty" data-qty="13">13</span> cl</li>       
+            <li><span>Farine (g)</span> <span><span class="qty" data-qty="175">175</span></span></li>
+            <li><span>Sel (càc)</span> <span><span class="qty" data-qty="1">1</span></span></li>
+            <li><span>Levure (sachet)</span> <span><span class="qty" data-qty="0.5">0.5</span></span></li>
+            <li><span>Huile d'olive (càs)</span> <span><span class="qty" data-qty="1.5">1.5</span></span></li>
+            <li><span>Eau tiède (cl)</span> <span><span class="qty" data-qty="13">13</span></span></li>       
         </ul>
 
-         <h3>Ravioles pour 2 pizzas</h3>
+        <h3>Garniture Ravioles</h3>
         <ul>
-            <li><span>Ravioles</span> <span class="qty" data-qty="4">4</span> plaques</li>
-            <li><span>Lardons</span> <span class="qty" data-qty="1">1</span> paquet</li>
-            <li><span>Crème fraiche</span> <span class="qty" data-qty="20">20</span> cl</li>
+            <li><span>Plaques de ravioles</span> <span><span class="qty" data-qty="4">4</span></span></li>
+            <li><span>Paquet de lardons</span> <span><span class="qty" data-qty="1">1</span></span></li>
+            <li><span>Crème fraiche (cl)</span> <span><span class="qty" data-qty="20">20</span></span></li>
         </ul>
 
-         <h3>Jambon pour 2 pizzas</h3>
+        <h3>Garniture Classique</h3>
         <ul>
-            <li><span>Jambon</span> <span>2 tranches</span></li>
-            <li><span>Poivrons</span> <span>1</span></li>
-            <li><span>Sauce tomate</span> <span>1 petit pot</span></li>
-            <li><span>Gruyère râpé</span> <span></span></li>
+            <li><span>Tranches de jambon</span> <span><span class="qty" data-qty="2">2</span></span></li>
+            <li><span>Poivron</span> <span><span class="qty" data-qty="1">1</span></span></li>
+            <li><span>Sauce tomate (pot)</span> <span><span class="qty" data-qty="1">1</span></span></li>
+            <li><span>Gruyère râpé</span> <span>QS</span></li>
          </ul>
     </aside>
 
@@ -225,82 +243,66 @@
         
         <div class="step">
             <div class="step-number">1</div>
-            <p>Mettre 175 g de farine dans un grand saladier puis ajouter successivement le sel,
-             la levure boulangère et l'huile d'olive.</p>
+            <p>Mélangez la farine, le sel, la levure et l'huile d'olive dans un grand saladier.</p>
         </div>
 
         <div class="step">
             <div class="step-number">2</div>
-            <p>Verser petit à petit l'eau tiède tout en mélangeant avec une cuillère en bois.</p>
+            <p>Versez l'eau tiède progressivement en mélangeant à la cuillère en bois.</p>
         </div>
 
         <div class="step">
             <div class="step-number">3</div>
-            <p>Remuer longuement jusqu'à obtention d'une pâte qui se détache du saladier.</p>
+            <p>Travaillez la pâte jusqu'à ce qu'elle soit souple et se détache des parois.</p>
         </div>
 
         <div class="step">
             <div class="step-number">4</div>
-            <p>Laisser reposer la pâte pendant 1h en couvrant le saladier avec un torchon dans un endroit chaud.</p>
+            <p><strong>Repos :</strong> Couvrez d'un torchon et laissez lever 1h dans un endroit tiède.</p>
         </div>
 
         <div class="step">
             <div class="step-number">5</div>
-            <p>Façonner votre pizza (carré taille airfyer). Ajouter les ingrédients.</p>
+            <p>Étalez la pâte (format Airfryer ou plaque). Garnissez selon vos envies.</p>
         </div>
 
         <div class="step">
             <div class="step-number">6</div>
-            <p>Faire cuire 10 minutes a 200°C.</p>
+            <p>Enfournez <strong>10 minutes à 200°C</strong> jusqu'à ce que les bords soient bien dorés.</p>
         </div>
-
     </section>
 
 </main>
+
 <script>
+    const baseServings = 2;
+    let servings = 2;
 
-const baseServings = 2;
+    const servingsDisplay = document.getElementById("servings");
+    const quantities = document.querySelectorAll(".qty");
 
-let servings = 2;
-
-const servingsDisplay = document.getElementById("servings");
-const plus = document.getElementById("plus");
-const minus = document.getElementById("minus");
-
-const quantities = document.querySelectorAll(".qty");
-
-function updateQuantities(){
-
-    const ratio = servings / baseServings;
-
-    quantities.forEach(qty => {
-
-        const baseQty = qty.dataset.qty;
-        const newQty = (baseQty * ratio).toFixed(2);
-
-        qty.textContent = newQty;
-
-    });
-
-    servingsDisplay.textContent = servings;
-}
-
-plus.addEventListener("click", () => {
-
-    servings++;
-    updateQuantities();
-
-});
-
-minus.addEventListener("click", () => {
-
-    if(servings > 1){
-        servings--;
-        updateQuantities();
+    function updateQuantities(){
+        const ratio = servings / baseServings;
+        quantities.forEach(qty => {
+            const baseQty = parseFloat(qty.dataset.qty);
+            const newQty = (baseQty * ratio);
+            // On affiche sans décimales si c'est un compte rond, sinon 1 décimale
+            qty.textContent = Number.isInteger(newQty) ? newQty : newQty.toFixed(1);
+        });
+        servingsDisplay.textContent = servings;
     }
 
-});
+    document.getElementById("plus").addEventListener("click", () => {
+        servings++;
+        updateQuantities();
+    });
 
+    document.getElementById("minus").addEventListener("click", () => {
+        if(servings > 1){
+            servings--;
+            updateQuantities();
+        }
+    });
 </script>
 
 </body>
