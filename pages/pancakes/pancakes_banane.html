@@ -217,14 +217,14 @@
     <aside class="ingredients">
         <h3>Ingrédients</h3>
         <ul>
-            <li><span>Œufs</span> <span class="qty" data-qty="2">2</span></li>
-            <li><span>Sucre (g)</span> <span class="qty" data-qty="70">70</span></li>
-            <li><span>Sucre vanillé</span> <span class="qty" data-qty="1">1 sachet</span></li>
-            <li><span>Lait (cl)</span> <span class="qty" data-qty="10">10</span></li>
-            <li><span>Farine (g)</span> <span class="qty" data-qty="200">200</span></li>
-            <li><span>Levure (càs)</span> <span class="qty" data-qty="1">1</span></li>
-            <li><span>Sel</span> <span>1 pincée</span></li>
-            <li><span>Banane(s)</span> <span class="qty" data-qty="2">2</span></li>
+            <li><span>Œufs</span> <span class="qty" data-qty="2" data-unit="" data-type="entier">2</span></li>
+            <li><span>Sucre</span> <span class="qty" data-qty="70" data-unit="g">70 g</span></li>
+            <li><span>Sucre vanillé</span> <span class="qty" data-qty="1" data-unit="sachet" data-type="entier">1 sachet</span></li>
+            <li><span>Lait</span> <span class="qty" data-qty="10" data-unit="cl">10 cl</span></li>
+            <li><span>Farine</span> <span class="qty" data-qty="200" data-unit="g">200 g</span></li>
+            <li><span>Levure</span> <span class="qty" data-qty="1" data-unit="càs">1 càs</span></li>
+            <li><span>Sel</span> <span class="qty" data-qty="1" data-unit="pincée" data-type="entier">1 pincée</span></li>
+            <li><span>Banane(s)</span> <span class="qty" data-qty="2" data-unit="" data-type="entier">2</span></li>
         </ul>
     </aside>
 
@@ -265,15 +265,28 @@
     const quantities = document.querySelectorAll(".qty");
     const servingsDisplay = document.getElementById("servings");
 
+    function roundSmart(value, type) {
+        if (type === "entier") {
+            // Arrondit à la demi-unité la plus proche (.0 ou .5)
+            let rounded = Math.round(value * 2) / 2;
+            return rounded < 0.5 ? 0.5 : rounded;
+        }
+        // Pas de décimale si c'est un entier, sinon une seule décimale
+        return Number.isInteger(value) ? value : parseFloat(value.toFixed(1));
+    }
+
     function updateQuantities() {
         const ratio = currentServings / baseServings;
         quantities.forEach(qty => {
-            const baseValue = parseFloat(qty.dataset.qty);
+            const baseValue = parseFloat(qty.getAttribute('data-qty'));
             if (!isNaN(baseValue)) {
-                const unit = qty.textContent.replace(/[0-9.]/g, "").trim();
-                const newValue = (baseValue * ratio).toFixed(1);
-                const finalQty = parseFloat(newValue);
-                qty.textContent = finalQty + (unit ? " " + unit : "");
+                const unit = qty.getAttribute('data-unit');
+                const type = qty.getAttribute('data-type');
+                
+                const rawValue = baseValue * ratio;
+                const finalValue = roundSmart(rawValue, type);
+                
+                qty.textContent = unit ? `${finalValue} ${unit}` : finalValue;
             }
         });
         servingsDisplay.textContent = currentServings;

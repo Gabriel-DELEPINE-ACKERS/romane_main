@@ -200,7 +200,7 @@
             <span>Difficulté : Facile</span>
 
             <div class="servings-control">
-                <span>Unités</span>
+                <span>Cookies</span>
                 <div class="servings-box">
                     <button type="button" id="minus" aria-label="Diminuer le nombre de cookies">−</button>
                     <span id="servings">12</span>
@@ -218,14 +218,14 @@
     <aside class="ingredients">
         <h3>Ingrédients</h3>
         <ul>
-            <li><span>Œufs</span><span class="qty" data-qty="2">2</span></li>
+            <li><span>Œufs</span><span class="qty" data-qty="2" data-type="entier">2</span></li>
             <li><span>Sucre blanc</span><span class="qty" data-qty="100">100 g</span></li>
             <li><span>Sucre roux</span><span class="qty" data-qty="100">100 g</span></li>
             <li><span>Farine</span><span class="qty" data-qty="370">370 g</span></li>
             <li><span>Beurre</span><span class="qty" data-qty="230">230 g</span></li>
-            <li><span>Bicarbonate</span><span class="qty" data-qty="1">1 càs</span></li>
-            <li><span>Vanille</span><span class="qty" data-qty="1">1 sachet</span></li>
-            <li><span>Chocolat (tablette)</span><span class="qty" data-qty="0.5">0.5</span></li>
+            <li><span>Bicarbonate</span><span class="qty" data-qty="1" data-type="entier">1 càs</span></li>
+            <li><span>Vanille</span><span class="qty" data-qty="1" data-type="entier">1 sachet</span></li>
+            <li><span>Chocolat (tablette)</span><span class="qty" data-qty="0.5" data-type="entier">0.5</span></li>
         </ul>
     </aside>
 
@@ -262,19 +262,39 @@
 
 <script>
 (function() {
-    const baseServings = 12; // Base pour 12 cookies
+    const baseServings = 12; 
     let servings = 12;
     const quantities = document.querySelectorAll(".qty");
 
+    // Stocke les unités d'origine au chargement de la page pour ne pas les perdre
+    const initialUnits = [];
+    quantities.forEach((qty, index) => {
+        // Extrait tout ce qui n'est pas un chiffre ou un point
+        const unit = qty.textContent.replace(/[0-9.]/g, "").trim();
+        initialUnits[index] = unit;
+    });
+
+    function roundSmart(value, type) {
+        if (type === "entier") {
+            // Arrondit au 0.5 le plus proche pour les œufs, sachets, cuillères et tablettes
+            let rounded = Math.round(value * 2) / 2;
+            return rounded < 0.5 ? 0.5 : rounded; 
+        }
+        // Pour les grammes (farine, sucre, beurre), on arrondit à l'entier
+        return Math.round(value);
+    }
+
     function updateQuantities(){
         const ratio = servings / baseServings;
-        quantities.forEach(qty => {
+        quantities.forEach((qty, index) => {
             const baseValue = parseFloat(qty.dataset.qty);
             if (isNaN(baseValue)) return;
 
-            const unit = qty.textContent.replace(/[0-9.]/g, "").trim();
-            const newQty = (baseValue * ratio).toFixed(2);
-            const finalQty = parseFloat(newQty); 
+            const isItemType = qty.dataset.type;
+            const rawValue = baseValue * ratio;
+            const finalQty = roundSmart(rawValue, isItemType);
+            
+            const unit = initialUnits[index];
             qty.textContent = finalQty + (unit ? " " + unit : "");
         });
         document.getElementById("servings").textContent = servings;

@@ -220,15 +220,15 @@
     <aside class="ingredients">
         <h3>Base</h3>
         <ul>
-            <li><span>Œufs</span><span class="qty" data-qty="2">2</span></li>
+            <li><span>Œufs</span><span class="qty" data-qty="2" data-type="entier">2</span></li>
             <li><span>Farine</span><span class="qty" data-qty="250">250 g</span></li>
             <li><span>Lait</span><span class="qty" data-qty="50">50 cl</span></li>
         </ul>
 
         <h3>Option sucrée</h3>
         <ul>
-            <li><span>Rhum</span><span class="qty" data-qty="1">1 càs</span></li>
-            <li><span>Sucre vanillé</span><span class="qty" data-qty="1">1 sachet</span></li>
+            <li><span>Rhum</span><span class="qty" data-qty="1" data-type="entier">1 càs</span></li>
+            <li><span>Sucre vanillé</span><span class="qty" data-qty="1" data-type="entier">1 sachet</span></li>
         </ul>
     </aside>
 
@@ -242,7 +242,7 @@
 
         <div class="step">
             <div class="step-number">2</div>
-            <p>Ajouter 25 cl (la moitié) de lait et mélanger énergiquement.</p>
+            <p>Ajouter la moitié du lait et mélanger énergiquement.</p>
         </div>
 
         <div class="step">
@@ -269,15 +269,34 @@
     let servings = 2;
     const quantities = document.querySelectorAll(".qty");
 
+    // Stocke les unités d'origine au chargement pour préserver le texte (g, cl, càs, sachet)
+    const initialUnits = [];
+    quantities.forEach((qty, index) => {
+        const unit = qty.textContent.replace(/[0-9.]/g, "").trim();
+        initialUnits[index] = unit;
+    });
+
+    function roundSmart(value, type) {
+        if (type === "entier") {
+            // Arrondit au 0.5 le plus proche pour les ingrédients unitaires
+            let rounded = Math.round(value * 2) / 2;
+            return rounded < 0.5 ? 0.5 : rounded; 
+        }
+        // Pour les liquides (cl) et les solides (g), l'arrondi à l'entier est idéal
+        return Math.round(value);
+    }
+
     function updateQuantities(){
         const ratio = servings / baseServings;
-        quantities.forEach(qty => {
+        quantities.forEach((qty, index) => {
             const baseValue = parseFloat(qty.dataset.qty);
             if (isNaN(baseValue)) return;
 
-            const unit = qty.textContent.replace(/[0-9.]/g, "").trim();
-            const newQty = (baseValue * ratio).toFixed(2);
-            const finalQty = parseFloat(newQty); 
+            const isItemType = qty.dataset.type;
+            const rawValue = baseValue * ratio;
+            const finalQty = roundSmart(rawValue, isItemType);
+            
+            const unit = initialUnits[index];
             qty.textContent = finalQty + (unit ? " " + unit : "");
         });
         document.getElementById("servings").textContent = servings;

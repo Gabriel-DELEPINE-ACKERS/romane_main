@@ -227,11 +227,11 @@
     <aside class="ingredients">
         <h3>Ingrédients</h3>
         <ul id="ingredient-list">
-            <li><span>Banane</span><span class="qty" data-qty="2" data-unit="unité">2</span></li>
+            <li><span>Banane</span><span class="qty" data-qty="2" data-unit="unité" data-type="entier">2</span></li>
             <li><span>Flocons d'avoine</span><span class="qty" data-qty="200" data-unit="g">200 g</span></li>
             <li><span>Poudre d'amande</span><span class="qty" data-qty="50" data-unit="g">50 g</span></li>
-            <li><span>Sucre</span><span class="qty" data-qty="2" data-unit="càs">2 càs</span></li>
-            <li><span>Levure chimique</span><span class="qty" data-qty="1" data-unit="càc">1 càc</span></li>
+            <li><span>Sucre</span><span class="qty" data-qty="2" data-unit="càs" data-type="entier">2 càs</span></li>
+            <li><span>Levure chimique</span><span class="qty" data-qty="1" data-unit="càc" data-type="entier">1 càc</span></li>
             <li><span>Lait</span><span class="qty" data-qty="42" data-unit="cl">42 cl</span></li>
             <li><span>Chocolat noir</span><span class="qty" data-qty="100" data-unit="g">100 g</span></li>
             <li><span>Vanille et canelle</span></li>
@@ -241,17 +241,28 @@
     <article class="instructions">
         <h3>Préparation</h3>
         <div class="step"><div class="step-number">1</div><p>Dans un grand bol, écraser les bananes</p></div>
-        <div class="step"><div class="step-number">2</div><p>Ajouter tous les autre singrédients. Mélanger</p></div>
-        <div class="step"><div class="step-number">3</div><p>Faire cuire 40 minutes a 180 degrès.</p></div>
+        <div class="step"><div class="step-number">2</div><p>Ajouter tous les autres ingrédients. Mélanger</p></div>
+        <div class="step"><div class="step-number">3</div><p>Faire cuire 40 minutes à 180 degrés.</p></div>
     </article>
 </main>
 
 <script>
-const baseServings = 2;
-let currentServings = 2;
+// Changement ici : On démarre à 4 pour être raccord avec le HTML
+const baseServings = 4;
+let currentServings = 4;
 
 const quantities = document.querySelectorAll(".qty");
 const servingsDisplay = document.getElementById("servings");
+
+function roundSmart(value, type) {
+    if (type === "entier") {
+        // Arrondit au 0.5 le plus proche pour les bananes et cuillères
+        let rounded = Math.round(value * 2) / 2;
+        return rounded < 0.5 ? 0.5 : rounded; 
+    }
+    // Pour les grammes (g) et centilitres (cl), un arrondi à l'entier suffit
+    return Math.round(value);
+}
 
 function updateQuantities() {
     const ratio = currentServings / baseServings;
@@ -259,12 +270,18 @@ function updateQuantities() {
     quantities.forEach(qty => {
         const baseQty = parseFloat(qty.getAttribute('data-qty'));
         const unit = qty.getAttribute('data-unit');
+        const isItemType = qty.getAttribute('data-type');
         
         if (!isNaN(baseQty)) {
-            let newQty = (baseQty * ratio);
-            // Formattage : on garde 1 décimale si ce n'est pas un entier
-            newQty = Number.isInteger(newQty) ? newQty : newQty.toFixed(1);
-            qty.textContent = unit ? `${newQty} ${unit}` : newQty;
+            const rawValue = baseQty * ratio;
+            const finalQty = roundSmart(rawValue, isItemType);
+            
+            // Si l'unité est définie et différente de "unité", on l'affiche, sinon on ne met rien
+            if (unit && unit !== "unité") {
+                qty.textContent = `${finalQty} ${unit}`;
+            } else {
+                qty.textContent = finalQty;
+            }
         }
     });
 

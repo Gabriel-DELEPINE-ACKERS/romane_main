@@ -227,13 +227,13 @@
     <aside class="ingredients">
         <h3>Ingrédients</h3>
         <ul id="ingredient-list">
-            <li><span>Œuf(s)</span><span class="qty" data-qty="2" data-unit="">2</span></li>
+            <li><span>Œuf(s)</span><span class="qty" data-qty="2" data-unit="" data-type="entier">2</span></li>
             <li><span>Sucre</span><span class="qty" data-qty="2" data-unit="càs">2 càs</span></li>
-            <li><span>Sucre vanillé</span><span class="qty" data-qty="1" data-unit="sachet">1 sachet</span></li>
+            <li><span>Sucre vanillé</span><span class="qty" data-qty="1" data-unit="sachet" data-type="entier">1 sachet</span></li>
             <li><span>Lait</span><span class="qty" data-qty="15" data-unit="cl">15 cl</span></li>
             <li><span>Farine</span><span class="qty" data-qty="125" data-unit="g">125 g</span></li>
             <li><span>Levure chimique</span><span class="qty" data-qty="1" data-unit="càs">1 càs</span></li>
-            <li><span>Sel</span><span class="qty" data-qty="1" data-unit="pincée">1 pincée</span></li>
+            <li><span>Sel</span><span class="qty" data-qty="1" data-unit="pincée" data-type="entier">1 pincée</span></li>
             <li><span>Matière grasse</span><span>Pour la cuisson</span></li>
         </ul>
     </aside>
@@ -241,7 +241,7 @@
     <article class="instructions">
         <h3>Préparation</h3>
         <div class="step"><div class="step-number">1</div><p>Dans un grand bol, mélangez les ingrédients secs : farine, levure, sucre, sel et sucre vanillé.</p></div>
-        <div class="step"><div class="step-number">2</div><p>Séparez les blancs des jaunes. Mélangez les jaunes d'oeufs avec le lait, puis versez sur les ingrédients secs. Mélangez jusqu'à obtenir une pâte épaisse. Laissez reposer 15 min.</p></div>
+        <div class="step"><div class="step-number">2</div><p>Séparez les blancs des jaunes. Mélangez les jaunes d'œufs avec le lait, puis versez sur les ingrédients secs. Mélangez jusqu'à obtenir une pâte épaisse. Laissez reposer 15 min.</p></div>
         <div class="step"><div class="step-number">3</div><p>Montez les blancs en neige ferme et incorporez-les délicatement à la pâte à l'aide d'une spatule.</p></div>
         <div class="step"><div class="step-number">4</div><p>Faites cuire dans une poêle beurrée bien chaude environ 1 minute par côté.</p></div>
         <div class="step"><div class="step-number">5</div><p>Retournez le pancake dès que des petites bulles apparaissent à la surface et que les bords deviennent dorés.</p></div>
@@ -255,18 +255,29 @@ let currentServings = 2;
 const quantities = document.querySelectorAll(".qty");
 const servingsDisplay = document.getElementById("servings");
 
+function roundSmart(value, type) {
+    if (type === "entier") {
+        // Arrondit à la demi-unité la plus proche (.0 ou .5)
+        let rounded = Math.round(value * 2) / 2;
+        return rounded < 0.5 ? 0.5 : rounded; 
+    }
+    // Comportement standard : 1 décimale si non entier
+    return Number.isInteger(value) ? value : parseFloat(value.toFixed(1));
+}
+
 function updateQuantities() {
     const ratio = currentServings / baseServings;
 
     quantities.forEach(qty => {
         const baseQty = parseFloat(qty.getAttribute('data-qty'));
         const unit = qty.getAttribute('data-unit');
+        const type = qty.getAttribute('data-type');
         
         if (!isNaN(baseQty)) {
-            let newQty = (baseQty * ratio);
-            // Formattage : on garde 1 décimale si ce n'est pas un entier
-            newQty = Number.isInteger(newQty) ? newQty : newQty.toFixed(1);
-            qty.textContent = unit ? `${newQty} ${unit}` : newQty;
+            const rawValue = baseQty * ratio;
+            const finalQty = roundSmart(rawValue, type);
+            
+            qty.textContent = unit ? `${finalQty} ${unit}` : finalQty;
         }
     });
 

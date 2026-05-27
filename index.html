@@ -15,6 +15,9 @@
             --bg: #fdfbf9;
             --text: #333;
             --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --warning-bg: #fff3cd; /* Couleur de fond du bandeau (jaune doux) */
+            --warning-text: #856404; /* Couleur du texte du bandeau */
+            --warning-border: #ffeeba;
         }
 
         body {
@@ -63,10 +66,26 @@
             width: 250px;
         }
 
+        /* --- BANDEAU D'AVERTISSEMENT --- */
+        .info-banner {
+            margin-top: 74px; /* Évite que le bandeau passe sous le menu fixe */
+            background-color: var(--warning-bg);
+            color: var(--warning-text);
+            border-bottom: 1px solid var(--warning-border);
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 400;
+        }
+        
+        .info-banner strong {
+            font-weight: 600;
+        }
+
         /* --- HERO & FILTRES --- */
         .hero {
-            margin-top: 80px;
-            padding: 40px 20px 20px;
+            /* Ajusté pour laisser de l'espace après le bandeau */
+            padding: 30px 20px 20px;
             text-align: center;
         }
 
@@ -171,6 +190,11 @@
     </div>
 </nav>
 
+<div class="info-banner">
+    🛠️ <strong>Site en cours de développement :<br></strong> Des erreurs temporaires peuvent être présentes (liens cassés, calculs des doses, etc.). Merci pour votre patience ! <br>
+    Vous pouvez me signaler les erreurs par mail <a  href="mailto:rom.bavuz@gmail.com">ici</a>
+</div>
+
 <header class="hero">
     <h1>Mes Douceurs Maison</h1>
     <div class="filters">
@@ -189,16 +213,6 @@
             <p>Le secret du dôme parfait et un parfum de citron.</p>
         </div>
     </a>
-
-    <!--<a href="/pages/salade_cesar/salade_cesar.html" class="recette-card" data-type="salé">
-        <img src="/pages/salade_cesar/salade_cesar.jpg" alt="Salade César" class="recette-img">
-        <div class="recette-content">
-            <span class="badge">Salé</span>
-            <h2>Salade César</h2>
-            <p>Poulet croustillant et sauce maison onctueuse.</p>
-        </div>
-    </a>-->
-    
 
     <a href="/pages/cookies/cookies.html" class="recette-card" data-type="sucré">
         <img src="/pages/cookies/cookies.png" alt="Cookies" class="recette-img">
@@ -273,7 +287,7 @@
         </div>
     </a>
 
-      <a href="/pages/graines/courge.html" class="recette-card" data-type="salé">
+    <a href="/pages/graines/courge.html" class="recette-card" data-type="salé">
         <img src="/pages/graines/courge.jpeg" alt="Graines de butternut grillées" class="recette-img">
         <div class="recette-content">
             <span class="badge">Salé</span>
@@ -287,7 +301,7 @@
         <div class="recette-content">
             <span class="badge">Sucré</span>
             <h2>Banana bread</h2>
-            <p>Pour un petit déjeuné gourmand et sa&in.</p>
+            <p>Pour un petit déjeuné gourmand et sain.</p>
         </div>
     </a>
 
@@ -299,7 +313,6 @@
             <p>Pancakes moelleux et dorés, parfaits pour un goûter moelleux.</p>
         </div>
     </a>
-
 </div>
 
 <script>
@@ -307,12 +320,11 @@
     const filterBtns = document.querySelectorAll(".filter-btn");
     const recipes = document.querySelectorAll(".recette-card");
 
-    // Fonction utilitaire pour enlever les accents et mettre en minuscule
     function simplifyText(text) {
         return text
             .toLowerCase()
-            .normalize("NFD")               // Décompose les caractères accentués
-            .replace(/[\u0300-\u036f]/g, ""); // Supprime les accents
+            .normalize("NFD")              
+            .replace(/[\u0300-\u036f]/g, ""); 
     }
 
     function filterRecipes() {
@@ -320,7 +332,6 @@
         const activeCategory = document.querySelector(".filter-btn.active").dataset.category;
 
         recipes.forEach(recipe => {
-            // On récupère le titre et la description pour la recherche
             const title = recipe.querySelector('h2').innerText;
             const description = recipe.querySelector('p').innerText;
             const combinedText = simplifyText(title + " " + description);
@@ -338,10 +349,8 @@
         });
     }
 
-    // Écouteur sur la barre de recherche
     searchInput.addEventListener("input", filterRecipes);
 
-    // Écouteur sur les boutons de filtre
     filterBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             filterBtns.forEach(b => b.classList.remove("active"));

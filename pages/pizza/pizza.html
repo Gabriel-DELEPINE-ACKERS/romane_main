@@ -217,23 +217,23 @@
         <ul>
             <li><span>Farine (g)</span> <span><span class="qty" data-qty="175">175</span></span></li>
             <li><span>Sel (càc)</span> <span><span class="qty" data-qty="1">1</span></span></li>
-            <li><span>Levure (sachet)</span> <span><span class="qty" data-qty="0.5">0.5</span></span></li>
+            <li><span>Levure (sachet)</span> <span><span class="qty" data-qty="0.5" data-type="entier">0.5</span></span></li>
             <li><span>Huile d'olive (càs)</span> <span><span class="qty" data-qty="1.5">1.5</span></span></li>
             <li><span>Eau tiède (cl)</span> <span><span class="qty" data-qty="13">13</span></span></li>       
         </ul>
 
         <h3>Garniture Ravioles</h3>
         <ul>
-            <li><span>Plaques de ravioles</span> <span><span class="qty" data-qty="4">4</span></span></li>
-            <li><span>Paquet de lardons</span> <span><span class="qty" data-qty="1">1</span></span></li>
-            <li><span>Crème fraiche (cl)</span> <span><span class="qty" data-qty="20">20</span></span></li>
+            <li><span>Plaques de ravioles</span> <span><span class="qty" data-qty="4" data-type="entier">4</span></span></li>
+            <li><span>Paquet de lardons</span> <span><span class="qty" data-qty="1" data-type="entier">1</span></span></li>
+            <li><span>Crème fraîche (cl)</span> <span><span class="qty" data-qty="20">20</span></span></li>
         </ul>
 
         <h3>Garniture Classique</h3>
         <ul>
-            <li><span>Tranches de jambon</span> <span><span class="qty" data-qty="2">2</span></span></li>
-            <li><span>Poivron</span> <span><span class="qty" data-qty="1">1</span></span></li>
-            <li><span>Sauce tomate (pot)</span> <span><span class="qty" data-qty="1">1</span></span></li>
+            <li><span>Tranches de jambon</span> <span><span class="qty" data-qty="2" data-type="entier">2</span></span></li>
+            <li><span>Poivron</span> <span><span class="qty" data-qty="1" data-type="entier">1</span></span></li>
+            <li><span>Sauce tomate (pot)</span> <span><span class="qty" data-qty="1" data-type="entier">1</span></span></li>
             <li><span>Gruyère râpé</span> <span>QS</span></li>
          </ul>
     </aside>
@@ -281,13 +281,25 @@
     const servingsDisplay = document.getElementById("servings");
     const quantities = document.querySelectorAll(".qty");
 
+    function roundSmart(value, type) {
+        if (type === "entier") {
+            // Arrondit à la demi-unité la plus proche (.0 ou .5)
+            let rounded = Math.round(value * 2) / 2;
+            return rounded < 0.5 ? 0.5 : rounded;
+        }
+        // Comportement standard : pas de décimale si entier, sinon 1 décimale
+        return Number.isInteger(value) ? value : parseFloat(value.toFixed(1));
+    }
+
     function updateQuantities(){
         const ratio = servings / baseServings;
         quantities.forEach(qty => {
             const baseQty = parseFloat(qty.dataset.qty);
-            const newQty = (baseQty * ratio);
-            // On affiche sans décimales si c'est un compte rond, sinon 1 décimale
-            qty.textContent = Number.isInteger(newQty) ? newQty : newQty.toFixed(1);
+            if (!isNaN(baseQty)) {
+                const type = qty.dataset.type;
+                const rawValue = baseQty * ratio;
+                qty.textContent = roundSmart(rawValue, type);
+            }
         });
         servingsDisplay.textContent = servings;
     }
